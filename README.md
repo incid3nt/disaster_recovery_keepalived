@@ -26,6 +26,7 @@ standby priority 105
 standby preempt
 standby 0 track GigabitEthernet0/1
 ```
+
 ```
 Router 5 Gi0/1
 ip address 192.168.1.2/24
@@ -34,6 +35,41 @@ standby 1 ip 192.168.1.1
 standby priority 50
 ```
 
+```
+Router 4 Gi0/0
+ip address 192.168.0.3/24
+standy version 2
+standby 0 ip 192.168.0.1
+standby preempt
+standby 0 track GigabitEthernet0/1
+```
+
+```
+Router 4 Gi0/1
+ip address 192.168.1.3/24
+standy version 2
+standby 1 ip 192.168.1.1
+standby 1 preempt
+```
+Посмотрим приоритеты маршрутизатора:
+Router 5
+```
+Router#show standby brief
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State    Active          Standby         Virtual IP
+Gig0/0      0    105 P Active   local           192.168.0.3     192.168.0.1    
+Gig0/1      1    50    Standby  192.168.1.3     local           192.168.1.1    
+```
+Router 4
+```
+Router#show standby brief
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State    Active          Standby         Virtual IP
+Gig0/0      0    100 P Standby  192.168.0.2     local           192.168.0.1    
+Gig0/1      1    100 P Active   local           192.168.1.2     192.168.1.1   
+```
 ---
 
 ### Задание 2
