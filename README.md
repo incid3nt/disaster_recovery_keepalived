@@ -13,7 +13,10 @@
 - Для проверки корректности настройки, разорвите один из кабелей между одним из маршрутизаторов и Switch0 и запустите ping между PC0 и Server0.
 - На проверку отправьте получившуюся схему в формате pkt и скриншот, где виден процесс настройки маршрутизатора.
 
-1. Код
+1.
+![cisco](https://github.com/incid3nt/disaster_recovery_keepalived/blob/main/img/PacketTracer_3vxH9ggbzG.png)
+
+Код
 ```
 Router 5 Gi0/0
 ip address 192.168.0.2/24
