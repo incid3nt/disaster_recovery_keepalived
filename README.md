@@ -26,7 +26,13 @@ standby priority 105
 standby preempt
 standby 0 track GigabitEthernet0/1
 ```
-
+```
+Router 5 Gi0/1
+ip address 192.168.1.2/24
+standy version 2
+standby 1 ip 192.168.1.1
+standby priority 50
+```
 
 ---
 
