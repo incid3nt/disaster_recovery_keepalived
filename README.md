@@ -180,7 +180,13 @@ nginx1 | CHANGED | rc=0 >>
              ├─3512 /usr/sbin/keepalived --dont-fork
              └─3513 /usr/sbin/keepalived --dont-fork
 ```
-
+```
+ansible all -m shell -a "sudo systemctl status keepalived | grep STATE"
+nginx2 | CHANGED | rc=0 >>
+янв 16 00:33:26 nginx2 Keepalived_vrrp[4160]: (VI_1) Entering BACKUP STATE (init)
+nginx1 | CHANGED | rc=0 >>
+янв 16 00:32:41 nginx1 Keepalived_vrrp[4174]: (VI_1) Entering MASTER STATE
+```
 
 ### Задание 3
 
