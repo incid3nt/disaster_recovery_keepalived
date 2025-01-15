@@ -117,29 +117,29 @@ nginx2                     : ok=3    changed=0    unreachable=0    failed=0    s
 ```
 
 ```
-oleg@DESKTOP-6TMQOI1:/etc/ansible$ ansible all -m shell -a "cat /etc/keepalived/keepalived.conf"
-nginx1 | CHANGED | rc=0 >>
-vrrp_instance VI_1 {
-        state MASTER
-        interface ens18
-        virtual_router_id 100
-        priority 255
-        advent_int 1
-
-        virtual_address {
-              192.168.1.100/24
-        }
-
-}
+ansible all -m shell -a "cat /etc/keepalived/keepalived.conf"
 nginx2 | CHANGED | rc=0 >>
 vrrp_instance VI_1 {
         state BACKUP
         interface ens18
         virtual_router_id 100
         priority 200
-        advent_int 1
+        advert_int 1
 
-        virtual_address {
+        virtual_ipaddress {
+              192.168.1.100/24
+        }
+
+}
+nginx1 | CHANGED | rc=0 >>
+vrrp_instance VI_1 {
+        state MASTER
+        interface ens18
+        virtual_router_id 100
+        priority 255
+        advert_int 1
+
+        virtual_ipaddress {
               192.168.1.100/24
         }
 
