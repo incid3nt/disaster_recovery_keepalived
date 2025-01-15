@@ -205,6 +205,24 @@ nginx2 | CHANGED | rc=0 >>
 янв 16 00:46:23 nginx2 Keepalived_vrrp[4160]: (VI_1) Entering BACKUP STATE
 янв 16 00:47:44 nginx2 Keepalived_vrrp[4160]: (VI_1) Entering MASTER STATE
 ```
+запустим обратно
+```
+sudo systemctl start keepalived
+```
+смотрим:
+```
+ ansible all -m shell -a "sudo systemctl status keepalived | grep STATE
+"
+nginx2 | CHANGED | rc=0 >>
+янв 16 00:44:36 nginx2 Keepalived_vrrp[4160]: (VI_1) Entering MASTER STATE
+янв 16 00:45:07 nginx2 Keepalived_vrrp[4160]: (VI_1) Entering BACKUP STATE
+янв 16 00:46:03 nginx2 Keepalived_vrrp[4160]: (VI_1) Entering MASTER STATE
+янв 16 00:46:23 nginx2 Keepalived_vrrp[4160]: (VI_1) Entering BACKUP STATE
+янв 16 00:47:44 nginx2 Keepalived_vrrp[4160]: (VI_1) Entering MASTER STATE
+янв 16 00:50:19 nginx2 Keepalived_vrrp[4160]: (VI_1) Entering BACKUP STATE
+nginx1 | CHANGED | rc=0 >>
+янв 16 00:50:19 nginx1 Keepalived_vrrp[4363]: (VI_1) Entering MASTER STATE
+```
 ### Задание 3
 
 - Изучите дополнительно возможность Keepalived, которая называется vrrp_track_file
