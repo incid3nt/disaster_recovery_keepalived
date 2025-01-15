@@ -79,6 +79,24 @@ Gig0/1      1    100 P Active   local           192.168.1.2     192.168.1.1
 - Напишите Bash-скрипт, который будет проверять доступность порта данного веб-сервера и существование файла index.html в root-директории данного веб-сервера.
 - Настройте Keepalived так, чтобы он запускал данный скрипт каждые 3 секунды и переносил виртуальный IP на другой сервер, если bash-скрипт завершался с кодом, отличным от нуля (то есть порт веб-сервера был недоступен или отсутствовал index.html). Используйте для этого секцию vrrp_script
 - На проверку отправьте получившейся bash-скрипт и конфигурационный файл keepalived, а также скриншот с демонстрацией переезда плавающего ip на другой сервер в случае недоступности порта или файла index.html
+установим nginx
+```
+ansible-playbook /etc/ansible/playbooks/nginx.yml --ask-become-pass
+```
+содержимое nginx
+```
+cat nginx.yml
+- hosts: nginx
+  become: yes
+  become_method: sudo
+  tasks:
+
+    - name: update
+      apt: update_cache=yes
+
+    - name: Install nginx
+      apt: name=nginx state=latest
+```
 
 ```
 cat keepalived.yml
