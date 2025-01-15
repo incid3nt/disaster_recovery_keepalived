@@ -81,6 +81,72 @@ Gig0/1      1    100 P Active   local           192.168.1.2     192.168.1.1
 - На проверку отправьте получившейся bash-скрипт и конфигурационный файл keepalived, а также скриншот с демонстрацией переезда плавающего ip на другой сервер в случае недоступности порта или файла index.html
 
 ```
+cat keepalived.yml
+- hosts: nginx
+  become: yes
+  become_method: sudo
+  tasks:
+
+    - name: update
+      apt: update_cache=yes
+
+    - name: Install keepalived
+      apt: name=keepalived state=latest
+```
+```
+oleg@DESKTOP-6TMQOI1:/etc/ansible/playbooks$ ansible-playbook /etc/ansible/playbooks/keepalived.yml --ask-become-pass
+BECOME password:
+
+PLAY [nginx] ********************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **********************************************************************************************************************************************************************
+ok: [nginx2]
+ok: [nginx1]
+
+TASK [update] *******************************************************************************************************************************************************************************
+ok: [nginx2]
+ok: [nginx1]
+
+TASK [Install keepalived] *******************************************************************************************************************************************************************
+ok: [nginx1]
+ok: [nginx2]
+
+PLAY RECAP **********************************************************************************************************************************************************************************
+nginx1                     : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+nginx2                     : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+```
+oleg@DESKTOP-6TMQOI1:/etc/ansible$ ansible all -m shell -a "cat /etc/keepalived/keepalived.conf"
+nginx1 | CHANGED | rc=0 >>
+vrrp_instance VI_1 {
+        state MASTER
+        interface ens18
+        virtual_router_id 100
+        priority 255
+        advent_int 1
+
+        virtual_address {
+              192.168.1.100/24
+        }
+
+}
+nginx2 | CHANGED | rc=0 >>
+vrrp_instance VI_1 {
+        state BACKUP
+        interface ens18
+        virtual_router_id 100
+        priority 200
+        advent_int 1
+
+        virtual_address {
+              192.168.1.100/24
+        }
+
+}
+```
+
+```
 ansible all -m shell -a "systemctl status keepalived" --ask-become-pass
 BECOME password:
 nginx2 | CHANGED | rc=0 >>
