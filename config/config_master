@@ -1,0 +1,12 @@
+vrrp_instance VI_1 {
+        state MASTER
+        interface ens18
+        virtual_router_id 100
+        priority 255
+        advent_int 1
+       
+        virtual_address {
+              192.168.1.100/24
+        }
+
+}

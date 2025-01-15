@@ -80,6 +80,41 @@ Gig0/1      1    100 P Active   local           192.168.1.2     192.168.1.1
 - Настройте Keepalived так, чтобы он запускал данный скрипт каждые 3 секунды и переносил виртуальный IP на другой сервер, если bash-скрипт завершался с кодом, отличным от нуля (то есть порт веб-сервера был недоступен или отсутствовал index.html). Используйте для этого секцию vrrp_script
 - На проверку отправьте получившейся bash-скрипт и конфигурационный файл keepalived, а также скриншот с демонстрацией переезда плавающего ip на другой сервер в случае недоступности порта или файла index.html
 
+```
+ansible all -m shell -a "systemctl status keepalived" --ask-become-pass
+BECOME password:
+nginx2 | CHANGED | rc=0 >>
+● keepalived.service - Keepalive Daemon (LVS and VRRP)
+     Loaded: loaded (/lib/systemd/system/keepalived.service; enabled; preset: enabled)
+     Active: active (running) since Thu 2025-01-16 00:02:26 MSK; 34s ago
+       Docs: man:keepalived(8)
+             man:keepalived.conf(5)
+             man:genhash(1)
+             https://keepalived.org
+   Main PID: 3532 (keepalived)
+      Tasks: 2 (limit: 2302)
+     Memory: 4.5M
+        CPU: 9ms
+     CGroup: /system.slice/keepalived.service
+             ├─3532 /usr/sbin/keepalived --dont-fork
+             └─3533 /usr/sbin/keepalived --dont-fork
+nginx1 | CHANGED | rc=0 >>
+● keepalived.service - Keepalive Daemon (LVS and VRRP)
+     Loaded: loaded (/lib/systemd/system/keepalived.service; enabled; preset: enabled)
+     Active: active (running) since Thu 2025-01-16 00:02:40 MSK; 19s ago
+       Docs: man:keepalived(8)
+             man:keepalived.conf(5)
+             man:genhash(1)
+             https://keepalived.org
+   Main PID: 3512 (keepalived)
+      Tasks: 2 (limit: 2302)
+     Memory: 4.5M
+        CPU: 8ms
+     CGroup: /system.slice/keepalived.service
+             ├─3512 /usr/sbin/keepalived --dont-fork
+             └─3513 /usr/sbin/keepalived --dont-fork
+```
+
 
 ### Задание 3
 
