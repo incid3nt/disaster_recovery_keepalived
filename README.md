@@ -241,6 +241,30 @@ nginx2 | CHANGED | rc=0 >>
 nginx1 | CHANGED | rc=0 >>
 янв 16 00:50:19 nginx1 Keepalived_vrrp[4363]: (VI_1) Entering MASTER STATE
 ```
+
+добавил проверку на работоспособность сервиса nginx
+```
+sudo cat keepalived.conf
+vrrp_track_process check_nginx {
+
+        process "nginx"
+
+}
+vrrp_instance VI_1 {
+        state MASTER
+        interface ens18
+        virtual_router_id 100
+        priority 255
+        advert_int 1
+
+        virtual_ipaddress {
+              192.168.1.100/24
+        }
+        track_process {
+                check_nginx
+        }
+}
+```
 ### Задание 3
 
 - Изучите дополнительно возможность Keepalived, которая называется vrrp_track_file
